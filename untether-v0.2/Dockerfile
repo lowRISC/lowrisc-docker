@@ -1,0 +1,60 @@
+# Version 0.2
+# Untethered lowRISC SoC
+
+# Pull base image
+FROM ubuntu:14.04
+
+# Install some base tools
+RUN apt-get update && \
+    apt-get install -y \
+    automake \
+    autotools-dev \
+    curl \
+    libmpc-dev \
+    gawk \
+    build-essential \
+    bison \
+    flex \
+    texinfo \
+    gperf \
+    git
+
+# Make a working folder and set the necessary environment variables.
+ENV TOP /opt/docker
+ENV RISCV /opt/riscv
+ENV VERI /opt/veri
+RUN mkdir -p $TOP
+RUN mkdir -p $RISCV
+
+# VERSION
+ENV TOOL_ENV untether-v0.2
+ENV VERI_ENV 80678ae7bc4d7111e
+
+# Add the GNU utils bin folder to the path.
+ENV PATH $RISCV/bin:$PATH
+
+# RISCV cross-compiler toolchain
+WORKDIR $TOP
+RUN mkdir riscv-tools && \
+    cd riscv-tools && \
+    git init && \
+    git remote add -t $TOOL_ENV origin https://github.com/lowrisc/riscv-tools.git && \
+    git fetch && git checkout $TOOL_ENV && \
+    git submodule update --init --recursive && \
+    ./build.sh 2>&1 1>build.log && \
+    tail build.log && \
+    cd riscv-gnu-toolchain/build && \
+    make -j linux 2>&1 1>build.log && \
+    tail build.log && \
+    cd - && \
+    rm -fr riscv-gnu-toolchain/build riscv-fesvr/build riscv-isa-sim/build riscv-pk/build
+
+# Verilator
+WORKDIR $TOP
+RUN git clone http://git.veripool.org/git/verilator && \
+    cd verilator && git checkout $VERI_ENV && \
+    autoconf && ./configure --prefix=$VERI && \
+    make -j install
+
+# cd ..; rm -fr verilator
+
