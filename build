@@ -1,8 +1,11 @@
 #!/bin/bash
 
-if [[ $# > 1 ]]; then
-   while [[ $# > 1 ]]
+if [[ $# > 0 ]]; then
+   while [[ $# > 0 ]]
    do
+        echo
+        echo "============================= Build \"$1\" ============================="
+        echo
         docker build --no-cache -t $1 ./$1
         shift
    done

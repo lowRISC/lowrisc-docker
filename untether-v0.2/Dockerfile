@@ -5,8 +5,9 @@
 FROM ubuntu:14.04
 
 # Install some base tools
-RUN apt-get update && \
-    apt-get install -y \
+RUN apt-get update 2>&1 1>/dev/null
+
+RUN apt-get install -y \
     automake \
     autotools-dev \
     curl \
@@ -17,13 +18,18 @@ RUN apt-get update && \
     flex \
     texinfo \
     gperf \
-    git
+    git \
+    openjdk-7-jre \
+    libboost-dev \
+    2>&1 1>/dev/null
+
+RUN apt-get clean
 
 # Make a working folder and set the necessary environment variables.
-ENV TOP /opt/docker
+ENV DOCK /opt/docker
 ENV RISCV /opt/riscv
 ENV VERI /opt/veri
-RUN mkdir -p $TOP
+RUN mkdir -p $DOCK
 RUN mkdir -p $RISCV
 
 # VERSION
@@ -34,7 +40,7 @@ ENV VERI_ENV 80678ae7bc4d7111e
 ENV PATH $RISCV/bin:$PATH
 
 # RISCV cross-compiler toolchain
-WORKDIR $TOP
+WORKDIR $DOCK
 RUN mkdir riscv-tools && \
     cd riscv-tools && \
     git init && \
@@ -50,7 +56,7 @@ RUN mkdir riscv-tools && \
     rm -fr riscv-gnu-toolchain/build riscv-fesvr/build riscv-isa-sim/build riscv-pk/build
 
 # Verilator
-WORKDIR $TOP
+WORKDIR $DOCK
 RUN git clone http://git.veripool.org/git/verilator && \
     cd verilator && git checkout $VERI_ENV && \
     autoconf && ./configure --prefix=$VERI && \
@@ -60,3 +66,6 @@ RUN git clone http://git.veripool.org/git/verilator && \
     ln -s ../share/verilator/bin/verilator_includer $VERI/bin/verilator_includer && \
     cd ..; rm -fr verilator
 
+# Set up env
+ENV PATH $PATH:$RISCV/bin:$VERI/bin
+ENV VERILATOR_ROOT $VERI
