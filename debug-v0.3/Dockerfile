@@ -1,5 +1,5 @@
-# Version 0.2
-# Untethered lowRISC SoC
+# Version 0.3
+# lowRISC SoC with a trace debugger
 
 # Pull base image
 FROM ubuntu:14.04
@@ -30,7 +30,7 @@ ENV VERI /opt/veri
 RUN mkdir -p $DOCK $RISCV
 
 # VERSION
-ENV TOOL_ENV untether-v0.2
+ENV TOOL_ENV debug-v0.3
 ENV VERI_ENV 80678ae7bc4d7111e
 
 # Add the GNU utils bin folder to the path.
