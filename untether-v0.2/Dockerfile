@@ -44,7 +44,7 @@ RUN mkdir riscv-tools && \
     ./build.sh 2>&1 1>build.log && \
     tail build.log && \
     cd riscv-gnu-toolchain/build && \
-    make -j linux 2>&1 1>build.log && \
+    make -j16 linux 2>&1 1>build.log && \
     tail build.log && \
     cd - && \
     rm -fr riscv-gnu-toolchain/build riscv-fesvr/build riscv-isa-sim/build riscv-pk/build
@@ -54,7 +54,9 @@ WORKDIR $TOP
 RUN git clone http://git.veripool.org/git/verilator && \
     cd verilator && git checkout $VERI_ENV && \
     autoconf && ./configure --prefix=$VERI && \
-    make -j install
-
-# cd ..; rm -fr verilator
+    make -j16 2>&1 1>build.log && \
+    make install && \
+    ln -s share/verilator/include $VERI/include && \
+    ln -s ../share/verilator/bin/verilator_includer $VERI/bin/verilator_includer && \
+    cd ..; rm -fr verilator
 

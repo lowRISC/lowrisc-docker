@@ -1,0 +1,12 @@
+#!/bin/bash
+
+if [[ $# > 1 ]]; then
+   while [[ $# > 1 ]]
+   do
+        docker build --no-cache -t $1 ./$1
+        shift
+   done
+else
+   echo "automatically build the dockers for various releases."
+   echo "    build [release] ... [release]"
+fi
