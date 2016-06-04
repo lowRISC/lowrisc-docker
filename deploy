@@ -1,0 +1,16 @@
+#!/bin/bash
+
+if [[ $# > 0 ]]; then
+   while [[ $# > 0 ]]
+   do
+        echo
+        echo "============================= Deploy \"$1\" ============================="
+        echo
+        docker tag -f $1 lowrisc/lowrisc-docker:$1
+        docker push lowrisc/lowrisc-docker:$1
+        shift
+   done
+else
+   echo "automatically deploy the dockers for various releases to Docker Hub."
+   echo "    deploy [release] ... [release]"
+fi
