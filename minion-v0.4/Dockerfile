@@ -2,7 +2,7 @@
 # lowRISC SoC with a minion and tagged pipeline
 
 # Pull base image
-FROM ubuntu:14.04
+FROM ubuntu:14.04.5
 
 # Install some base tools
 RUN apt-get update 2>&1 1>/dev/null && \
@@ -30,8 +30,8 @@ ENV VERI /opt/veri
 RUN mkdir -p $DOCK $RISCV
 
 # VERSION
-ENV TOOL_ENV tagpipe
-ENV VERI_ENV 80678ae7bc4d7111e
+ENV TOOL_COMMIT d86cf0e
+ENV VERI_COMMIT verilator_3_902
 
 # Add the GNU utils bin folder to the path.
 ENV PATH $RISCV/bin:$PATH
@@ -41,8 +41,8 @@ WORKDIR $DOCK
 RUN mkdir riscv-tools && \
     cd riscv-tools && \
     git init && \
-    git remote add -t $TOOL_ENV origin https://github.com/lowrisc/riscv-tools.git && \
-    git fetch && git checkout $TOOL_ENV && \
+    git remote add origin https://github.com/lowrisc/riscv-tools.git && \
+    git fetch && git checkout $TOOL_COMMIT && \
     git submodule update --init --recursive && \
     ./build.sh 2>&1 1>/dev/null && \
     cd riscv-gnu-toolchain/build && \
@@ -52,7 +52,7 @@ RUN mkdir riscv-tools && \
 # Verilator
 WORKDIR $DOCK
 RUN git clone http://git.veripool.org/git/verilator && \
-    cd verilator && git checkout $VERI_ENV && \
+    cd verilator && git checkout $VERI_COMMIT && \
     autoconf && ./configure --prefix=$VERI && \
     make -j16 2>&1 1>/dev/null && \
     make install && \
