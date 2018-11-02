@@ -7,12 +7,7 @@ services:
   - docker
 
 env:
-  matrix:
-    - DOCKER_TARGET=untether-v0.2
-    - DOCKER_TARGET=debug-v0.3
-    - DOCKER_TARGET=minion-v0.4
-    - DOCKER_TARGET=rocket-v1.0
-
+  - DOCKER_TARGET=base-v16.04
 
 # define test
 
@@ -25,3 +20,4 @@ before_script:
 
 script:
  - ./build $DOCKER_TARGET && docker tag $DOCKER_TARGET lowrisc/lowrisc-docker:$DOCKER_TARGET && docker push lowrisc/lowrisc-docker:$DOCKER_TARGET
+
