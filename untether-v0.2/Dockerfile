@@ -21,7 +21,7 @@ RUN mkdir riscv-tools && \
     git fetch && git checkout $TOOL_ENV && \
     git submodule update --init --recursive && \
     ./build.sh 2>&1 1>/dev/null && \
-    cd riscv-gnu-toolchain/build && \
+    cd $DOCK && rm -fr riscv-tools
 
 # Set up env
 ENV PATH $PATH:$RISCV/bin

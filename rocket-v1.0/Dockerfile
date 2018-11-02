@@ -15,8 +15,7 @@ ENV TOOL_COMMIT 1272e77f207ed0c
 
 # RISCV cross-compiler toolchain
 WORKDIR $DOCK
-RUN rm -fr $RISCV && \
-    mkdir riscv-tools && \
+RUN mkdir riscv-tools && \
     cd riscv-tools && \
     git init && \
     git remote add origin https://github.com/lowrisc/riscv-tools.git && \
@@ -25,7 +24,7 @@ RUN rm -fr $RISCV && \
     git submodule update --init --recursive || \
     git submodule update --init --recursive ) && \
     ./build.sh 2>&1 1>/dev/null && \
-    cd $DOCK && rm -fr riscv-tools \
+    cd $DOCK && rm -fr riscv-tools
 
 # Set up env
 ENV PATH $PATH:$RISCV/bin
