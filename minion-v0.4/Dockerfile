@@ -47,15 +47,13 @@ RUN mkdir riscv-tools && \
     git submodule update --init --recursive && \
     ./build.sh 2>&1 1>/dev/null && \
     cd riscv-gnu-toolchain/build && \
-    make -j16 linux 2>&1 1>/dev/null && \
-    cd $DOCK && rm -fr riscv-tools \
 
 # Verilator
 WORKDIR $DOCK
 RUN git clone http://git.veripool.org/git/verilator && \
     cd verilator && git checkout $VERI_COMMIT && \
     autoconf && ./configure --prefix=$VERI && \
-    make -j16 2>&1 1>/dev/null && \
+    make 2>&1 1>/dev/null && \
     make install && \
     ln -s share/verilator/include $VERI/include && \
     ln -s ../share/verilator/bin/verilator_includer $VERI/bin/verilator_includer && \

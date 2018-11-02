@@ -60,7 +60,7 @@ RUN rm -fr $VERI && \
     git clone http://git.veripool.org/git/verilator && \
     cd verilator && git checkout $VERI_COMMIT && \
     autoconf && ./configure --prefix=$VERI && \
-    make -j16 2>&1 1>/dev/null && \
+    make 2>&1 1>/dev/null && \
     make install && \
     ln -s share/verilator/include $VERI/include && \
     ln -s ../share/verilator/bin/verilator_includer $VERI/bin/verilator_includer && \
