@@ -2,7 +2,7 @@
 # Untethered lowRISC SoC
 
 # Pull base image
-FROM ubuntu:14.04
+FROM ubuntu:16.04
 
 # Install some base tools
 RUN apt-get update 2>&1 1>/dev/null && \
@@ -18,7 +18,8 @@ RUN apt-get update 2>&1 1>/dev/null && \
     texinfo \
     gperf \
     git \
-    openjdk-7-jre \
+    openjdk-8-jre \
+    python \
     libboost-dev \
     2>&1 1>/dev/null && \
     apt-get clean

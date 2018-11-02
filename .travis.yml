@@ -1,0 +1,27 @@
+sudo: required
+dist: trusty
+group: edge  # Add this
+
+# Using the precompiled toolchain from docker
+services:
+  - docker
+
+env:
+  matrix:
+    - DOCKER_TARGET=untether-v0.2
+    - DOCKER_TARGET=debug-v0.3
+    - DOCKER_TARGET=minion-v0.4
+    - DOCKER_TARGET=rocket-v1.0
+
+
+# define test
+
+# actual test build
+
+before_install:
+
+before_script:
+ - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+
+script:
+ - ./build $DOCKER_TARGET && docker tag $DOCKER_TARGET lowrisc/lowrisc-docker:$DOCKER_TARGET && docker push lowrisc/lowrisc-docker:$DOCKER_TARGET

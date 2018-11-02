@@ -6,7 +6,7 @@ if [[ $# > 0 ]]; then
         echo
         echo "============================= Deploy \"$1\" ============================="
         echo
-        docker tag -f $1 lowrisc/lowrisc-docker:$1
+        docker tag $1 lowrisc/lowrisc-docker:$1
         docker push lowrisc/lowrisc-docker:$1
         shift
    done

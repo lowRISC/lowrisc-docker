@@ -2,7 +2,7 @@
 # lowRISC SoC with the upstream Rocket-chip
 
 # Pull base image
-FROM ubuntu:14.04.5
+FROM ubuntu:16.04
 
 # Install some base tools
 RUN apt-get update 2>&1 1>/dev/null && \
@@ -18,8 +18,8 @@ RUN apt-get update 2>&1 1>/dev/null && \
     texinfo \
     gperf \
     git \
-    openjdk-7-jre \
-    openjdk-7-jdk \
+    openjdk-8-jre \
+    openjdk-8-jdk \
     python \
     libboost-dev \
     device-tree-compiler \
